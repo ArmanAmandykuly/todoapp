@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<label for="title">Title: </label>
+<p id = "title" th:text="${task.getTitle()}"></p>
+<label for="description">Description: </label>
+<p id = "description" th:text="${task.getDescription()}"></p>
+<label for="dueDate">Due date: </label>
+<p id = "dueDate" th:text="${task.getDueDate()}"></p>
+<label for="isCompleted">Is completed: </label>
+<input class = "checkbox-item" id = "isCompleted" type="checkbox" th:checked="${task.getIsCompleted()}" th:value="${task.getId()}"></input>
+
+<script>
+    $(document).ready(function() {
+        $(".checkbox-item").on("change", function() {
+            var itemId = $(this).val();
+            var isChecked = $(this).prop("checked");
+
+            $.ajax({
+                type: "POST",
+                url: "/update-checkbox",
+                data: {
+                    itemId: itemId,
+                    isChecked: isChecked
+                },
+                success: function(response) {
+                    console.log("Lol. it worked");
+                },
+                error: function(response) {
+                    console.log("Something definitely wrong here");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
